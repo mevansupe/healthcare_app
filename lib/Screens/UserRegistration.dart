@@ -22,7 +22,6 @@ class _UserRegistrationState extends State<UserRegistration> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(248, 12, 68, 100),
         title: Text('User Registration'),
       ),
       body: SafeArea(
@@ -81,12 +80,21 @@ class _UserRegistrationState extends State<UserRegistration> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Row(
-                      children: <Widget>[Text("Physical Disorder")],
+                      children: <Widget>[
+                        Text(
+                          "Do you have physical disorders?",
+                          style: TextStyle(
+//                        color: Colors.pinkAccent.shade200,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
                     ),
                   ),
                   ListTile(
                     title: const Text('Yes'),
                     leading: Radio(
+//                      activeColor: Colors.pinkAccent.shade200,
                       value: PhysicalDisorderSelector.yes,
                       groupValue: _character,
                       onChanged: (PhysicalDisorderSelector value) {
@@ -99,6 +107,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ListTile(
                     title: const Text('No'),
                     leading: Radio(
+//                      activeColor: Colors.pinkAccent.shade200,
                       value: PhysicalDisorderSelector.no,
                       groupValue: _character,
                       onChanged: (PhysicalDisorderSelector value) {
@@ -108,16 +117,32 @@ class _UserRegistrationState extends State<UserRegistration> {
                       },
                     ),
                   ),
-                  _character == PhysicalDisorderSelector.yes ?
-                  FormTextBox(
-                    hint: "Physical Disorder",
-                  ) : SizedBox(),
+                  _character == PhysicalDisorderSelector.yes
+                      ? FormTextBox(
+                          hint: "Physical Disorder",
+                        )
+                      : SizedBox(),
                   SizedBox(
                     height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "Do you have medical allergies?",
+                          style: TextStyle(
+//                            color: Colors.pinkAccent.shade200,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                   ListTile(
                     title: const Text('Yes'),
                     leading: Radio(
+//                      activeColor: Colors.pinkAccent.shade200,
                       value: MedicalAllergiesSelector.yes,
                       groupValue: _medicalallegy,
                       onChanged: (MedicalAllergiesSelector value) {
@@ -130,6 +155,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                   ListTile(
                     title: const Text('No'),
                     leading: Radio(
+//                      activeColor: Colors.pinkAccent.shade200,
                       value: MedicalAllergiesSelector.no,
                       groupValue: _medicalallegy,
                       onChanged: (MedicalAllergiesSelector value) {
@@ -139,10 +165,11 @@ class _UserRegistrationState extends State<UserRegistration> {
                       },
                     ),
                   ),
-                  _medicalallegy == MedicalAllergiesSelector.yes ?
-                  FormTextBox(
-                    hint: "Medical Allergies",
-                  ) : SizedBox(),
+                  _medicalallegy == MedicalAllergiesSelector.yes
+                      ? FormTextBox(
+                          hint: "Medical Allergies",
+                        )
+                      : SizedBox(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -150,7 +177,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: MspButton(
-                            color: Color.fromRGBO(248, 12, 68, 100),
+                            color: Colors.lightBlue,
                             title: "Register",
                             onPressed: () {
                               print("object");
@@ -194,6 +221,21 @@ class FormTextBox extends StatelessWidget {
               decoration: InputDecoration(
                 hintStyle: TextStyle(fontSize: 18),
                 hintText: hint,
+//                enabledBorder: OutlineInputBorder(
+//                  borderSide: const BorderSide(color: Colors.red),
+//                ),
+                labelText: hint,
+                labelStyle: TextStyle(
+//                    color: Colors.lightBlue,
+                    fontWeight: FontWeight.bold),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: Colors.lightBlue,
+                      width: 2.0),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.lightBlue, width: 2.0),
+                ),
               ),
             ),
           ),
