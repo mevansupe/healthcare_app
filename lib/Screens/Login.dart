@@ -18,11 +18,11 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Form(
           key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.only(top: 40),
-            child: ListView(
-              children: <Widget>[
-                Column(
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Row(
@@ -143,8 +143,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
