@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/Login.dart';
 import 'Screens/UserRegistration.dart';
 import 'Screens/Dashboard.dart';
-import 'Components/Chart.dart';
+import 'Screens/HospitalRegistration.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xff0a96fa),
         accentColor: Colors.blue.shade600
       ),
-      home: Dashboard(),
+      home: HospitalRegistration(),
     );
   }
 }
