@@ -3,6 +3,7 @@ import 'Screens/Login.dart';
 import 'Screens/UserRegistration.dart';
 import 'Screens/Dashboard.dart';
 import 'Screens/HospitalRegistration.dart';
+import 'Screens/DoctorRegistration.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xff0a96fa),
         accentColor: Colors.blue.shade600
       ),
-      home: HospitalRegistration(),
+      home: DoctorRegistration(),
     );
   }
 }
