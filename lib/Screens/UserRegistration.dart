@@ -218,6 +218,10 @@ class FormTextBox extends StatelessWidget {
           Expanded(
             child: TextFormField(
               onChanged: onChanged,
+              style: TextStyle(
+                fontSize: 18,
+                letterSpacing: 0.8
+              ),
               decoration: InputDecoration(
                 hintStyle: TextStyle(fontSize: 18),
                 hintText: hint,

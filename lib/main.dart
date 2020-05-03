@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/Login.dart';
 import 'Screens/UserRegistration.dart';
 import 'Screens/Dashboard.dart';
+import 'Components/Chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.light().copyWith(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
         primaryColor: Color(0xff0a96fa),
         accentColor: Colors.blue.shade600
       ),
