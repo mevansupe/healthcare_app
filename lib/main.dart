@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xff0a96fa),
         accentColor: Colors.blue.shade600
       ),
-      home: Dashboard(),
+      home: DoctorRegistration(),
     );
   }
 }

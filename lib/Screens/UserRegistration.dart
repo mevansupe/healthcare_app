@@ -4,7 +4,6 @@ import 'package:page_slider/page_slider.dart';
 import 'package:healthcareapp/Components/MspButton.dart';
 import 'package:healthcareapp/Logic/Database.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 Database datab = Database();
 
@@ -19,6 +18,16 @@ class UserRegistration extends StatefulWidget {
 
 enum PhysicalDisorderSelector { yes, no }
 enum MedicalAllergiesSelector { yes, no }
+
+final dobController = TextEditingController();
+final fNameController = TextEditingController();
+final lNameController = TextEditingController();
+final nicController = TextEditingController();
+final emailController = TextEditingController();
+final mobileController = TextEditingController();
+final emergencyController = TextEditingController();
+final phisicalController = TextEditingController();
+final medicalController = TextEditingController();
 
 class _UserRegistrationState extends State<UserRegistration> {
   final _formKey = GlobalKey<FormState>();
@@ -36,41 +45,58 @@ class _UserRegistrationState extends State<UserRegistration> {
   String medicalAllergy = "";
   String dob = "";
 
-  TextEditingController dobController;
-  TextEditingController fNameController;
-  TextEditingController lNameController;
-  TextEditingController nicController;
-  TextEditingController emailController;
-  TextEditingController mobileController;
-  TextEditingController emergencyController;
-  TextEditingController phisicalController;
-  TextEditingController medicalController;
-
   Future<void> _successMsg() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Registered'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Registration Successfull!'),
-              ],
+    if (widget.mspreg == 1) {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Updated'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Successfully Updated'),
+                ],
+              ),
             ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Registered'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Registration Successfull!'),
+                ],
+              ),
             ),
-          ],
-        );
-      },
-    );
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -81,52 +107,58 @@ class _UserRegistrationState extends State<UserRegistration> {
     if (widget.mspreg == 1) {
       getUser();
     }
-    
   }
 
-  void getUser() async{
+  void getUser() async {
     var data = await datab.getUserDetails("chamara@gmail.com");
     data.forEach((v) => {
-      print(v),
-      setState(() {
-          fNameController = TextEditingController(text: v["first_name"]);
-          lNameController = TextEditingController(text: v["last_name"]);  
-          nicController = TextEditingController(text: v["nic"]);  
-          dobController = TextEditingController(text: v["dob"]);  
-          emailController = TextEditingController(text: v["email"]);  
-          mobileController = TextEditingController(text: v["mobile"]);  
-          emergencyController = TextEditingController(text: v["emergency_no"]);  
-          phisicalController = TextEditingController(text: v["phy_dis"]);  
-          medicalController = TextEditingController(text: v["med_alergy"]);    
-        })
-      }
-    );
+          print(v),
+          setState(() {
+            fNameController..text = v["first_name"];
+            lNameController..text = v["last_name"];
+            nicController..text = v["nic"];
+            dobController..text = v["dob"];
+            emailController..text = v["email"];
+            mobileController..text = v["mobile"];
+            emergencyController..text = v["emergency_no"];
+            phisicalController..text = v["phy_dis"];
+            medicalController..text = v["med_alergy"];
+          })
+        });
   }
 
   void registerUser() async {
+    if (_formKey.currentState.validate()) {
+      Map<String, dynamic> userData = {
+        'username': emailController.text,
+        'password': nicController.text,
+        'first_name': fNameController.text,
+        'last_name': lNameController.text,
+        'nic': nicController.text,
+        'dob': dobController.text,
+        'email': emailController.text,
+        'mobile': mobileController.text,
+        'emergency_no': emergencyController.text,
+        'phy_dis': phisicalController.text,
+        'med_alergy': medicalController.text,
+      };
 
-//    if (_formKey.currentState.validate()) {
-//      Map<String, dynamic> userData = {
-//        'username': email,
-//        'password': nic,
-//        'first_name': fName,
-//        'last_name': lName,
-//        'nic': nic,
-//        'dob': dob,
-//        'email': email,
-//        'mobile': mobile,
-//        'emergency_no': emergencyno,
-//        'phy_dis': phisicalDis,
-//        'med_alergy': medicalAllergy,
-//      };
-//
-//      bool res = await datab.registerUser(userData);
-//
-//      if (res) {
-//        await _successMsg();
-//        Navigator.pop(context);
-//      }
-//    }
+      if (widget.mspreg == 0) {
+        bool res = await datab.registerUser(userData);
+
+        if (res) {
+          await _successMsg();
+          Navigator.pop(context);
+        }
+      } else {
+        bool res = await datab.updateUser(userData, userData["email"]);
+
+        if (res) {
+          await _successMsg();
+          Navigator.pop(context);
+        }
+      }
+    }
   }
 
   String validate(val, name) {
@@ -218,7 +250,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                           _dateTime = date;
                           final f = new DateFormat('yyyy-MM-dd');
                           dob = f.format(date);
-                          dobController = TextEditingController(text: dob);
+                          dobController..text = dob;
                         });
                       });
                     },

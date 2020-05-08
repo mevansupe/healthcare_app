@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:healthcareapp/Components/MspButton.dart';
 import 'package:healthcareapp/Screens/UserRegistration.dart';
 import 'package:healthcareapp/Logic/Database.dart';
+import 'package:healthcareapp/Screens/Dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Database datab = Database();
 
@@ -15,6 +17,88 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  String email;
+  String pass;
+
+  login() async {
+    if (_formKey.currentState.validate()) {
+      bool logged = await datab.loginUser(email, pass);
+
+      if (logged) {
+        await _logDetails();
+        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard()));
+      } else {
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Row(
+                children: <Widget>[
+                  Icon(Icons.error, color: Colors.red,),
+                  SizedBox(width: 10,),
+                  Text('Error')
+                ],
+              ),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Username or password is incorrect', textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
+  String validate(val, name) {
+    if (val.isEmpty) {
+      return 'Please enter your ${name}';
+    }
+    return null;
+  }
+
+  _logDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', email);
+    String username = prefs.getString('username');
+    print(username);
+  }
+
+   _getlogin() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+//    SharedPreferences.setMockInitialValues({});
+    try {
+      String username = prefs.getString('username');
+      print(username);
+      if (username != null) {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard()));
+      } else {
+        print("not logged in");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getlogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +134,14 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              onChanged: (val) {
+                                setState(() {
+                                  email = val;
+                                });
+                              },
+                              validator: (val) {
+                                return validate(val, "Username");
+                              },
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(fontSize: 18),
                                 hintText: "Username",
@@ -73,6 +165,14 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                             child: TextFormField(
                               obscureText: true,
+                              onChanged: (val) {
+                                setState(() {
+                                  pass = val;
+                                });
+                              },
+                              validator: (val) {
+                                return validate(val, "Password");
+                              },
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(fontSize: 18),
                                 hintText: "Password",
@@ -92,8 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text(
                             "Forgot Password ?",
                             textAlign: TextAlign.center,
-                            style:
-                            TextStyle(
+                            style: TextStyle(
                                 color: Colors.blue.shade900, fontSize: 18),
                           ),
                         ),
@@ -112,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.red,
                               title: "Login",
                               onPressed: () {
-                                print("object");
+                                login();
                               },
                             ),
                           ),
@@ -137,8 +236,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (_) => UserRegistration()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => UserRegistration(
+                                                mspreg: 0,
+                                              )));
                                 },
                                 child: Text(
                                   "Register",
