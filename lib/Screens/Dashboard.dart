@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:healthcareapp/Screens/UserRegistration.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
-                    "Welcome Bro!",
+                    "Welcome!",
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold
@@ -68,6 +69,9 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ContainerComponent(
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => UserRegistration(mspreg: 1,)));
+                      },
                       icon: Icons.person,
                       text: "Edit Profile",
                     ),
@@ -105,35 +109,39 @@ class _DashboardState extends State<Dashboard> {
 class ContainerComponent extends StatelessWidget {
   final String text;
   final IconData icon;
-  ContainerComponent({this.text,this.icon});
+  final Function onpressed;
+  ContainerComponent({this.text,this.icon, this.onpressed});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(
-            icon,
-            size: 120,
-            color: Colors.white,
-          ),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
+    return GestureDetector(
+      onTap: onpressed,
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              icon,
+              size: 120,
+              color: Colors.white,
             ),
-          ),
-        ],
-      ),
-      width: 170,
-      height: 180,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Color(0xff0a96fa)
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+              ),
+            ),
+          ],
+        ),
+        width: 170,
+        height: 160,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Color(0xff0a96fa)
+        ),
       ),
     );
   }

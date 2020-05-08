@@ -28,11 +28,13 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
       body: SafeArea(
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ListView(
             children: <Widget>[
               Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
                   FormTextBox(
                     hint: "Name",
                   ),

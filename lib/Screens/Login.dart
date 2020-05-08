@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcareapp/Components/MspButton.dart';
+import 'package:healthcareapp/Screens/UserRegistration.dart';
+import 'package:healthcareapp/Logic/Database.dart';
+
+Database datab = Database();
 
 class LoginPage extends StatefulWidget {
   static String id = "LoginPage";
@@ -11,7 +15,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                             "Forgot Password ?",
                             textAlign: TextAlign.center,
                             style:
-                            TextStyle(color: Colors.blue.shade900, fontSize: 18),
+                            TextStyle(
+                                color: Colors.blue.shade900, fontSize: 18),
                           ),
                         ),
                       ],
@@ -128,13 +132,21 @@ class _LoginPageState extends State<LoginPage> {
                               Text(
                                 "Not registered? ",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.black38, fontSize: 18),
-                              ),
-                              Text(
-                                "Register",
-                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.blue.shade900, fontSize: 18),
+                                    color: Colors.black38, fontSize: 18),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (_) => UserRegistration()));
+                                },
+                                child: Text(
+                                  "Register",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.blue.shade900,
+                                      fontSize: 18),
+                                ),
                               ),
                             ],
                           ),
