@@ -163,13 +163,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.18.2"
-  page_slider:
-    dependency: "direct main"
-    description:
-      name: page_slider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   path:
     dependency: transitive
     description:

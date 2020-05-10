@@ -4,6 +4,9 @@ import 'package:healthcareapp/Components/MspButton.dart';
 import 'package:healthcareapp/Screens/UserRegistration.dart';
 import 'package:healthcareapp/Logic/Database.dart';
 import 'package:healthcareapp/Screens/Dashboard.dart';
+import 'package:healthcareapp/Screens/DoctorRegistration.dart';
+import 'package:healthcareapp/Screens/HospitalRegistration.dart';
+import 'package:healthcareapp/Screens/Dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Database datab = Database();
@@ -19,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String pass;
+  String username;
 
   login() async {
     if (_formKey.currentState.validate()) {
@@ -26,7 +30,8 @@ class _LoginPageState extends State<LoginPage> {
 
       if (logged) {
         await _logDetails();
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard()));
+        await _getlogin();
+        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard(username: username)));
       } else {
         return showDialog<void>(
           context: context,
@@ -72,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
   _logDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', email);
-    String username = prefs.getString('username');
+    username = prefs.getString('username');
     print(username);
   }
 
@@ -83,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       String username = prefs.getString('username');
       print(username);
       if (username != null) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard(username: username,)));
       } else {
         print("not logged in");
       }
@@ -234,23 +239,58 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                     color: Colors.black38, fontSize: 18),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => UserRegistration(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => UserRegistration(
                                                 mspreg: 0,
                                               )));
-                                },
-                                child: Text(
-                                  "Register",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.blue.shade900,
-                                      fontSize: 18),
-                                ),
-                              ),
+                                    },
+                                    child: Text(
+                                      "Register As User",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blue.shade900,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => HospitalRegistration()));
+                                    },
+                                    child: Text(
+                                      "Register As Hospital",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blue.shade900,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => DoctorRegistration()));
+                                    },
+                                    child: Text(
+                                      "Register As Doctor",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blue.shade900,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),

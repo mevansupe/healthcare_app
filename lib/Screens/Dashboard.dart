@@ -2,8 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:healthcareapp/Screens/UserRegistration.dart';
+import 'package:healthcareapp/Screens/New_Appoinment.dart';
+import 'package:healthcareapp/Screens/Appoinment_History.dart';
+import 'package:healthcareapp/Screens/Upcomming_Appoingments.dart';
+import 'package:healthcareapp/Screens/View_Hospitals.dart';
+import 'package:healthcareapp/Screens/View_Doctors.dart';
 
 class Dashboard extends StatefulWidget {
+
+  final username;
+
+  Dashboard({this.username});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -53,15 +63,15 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 250,
-                  width: 350,
-                  child: SimpleBarChart(
-                    _createSampleData(),
-                    // Disable animations for image tests.
-                    animate: false,
-                  ),
-                ),
+//                Container(
+//                  height: 250,
+//                  width: 350,
+//                  child: SimpleBarChart(
+//                    _createSampleData(),
+//                    // Disable animations for image tests.
+//                    animate: false,
+//                  ),
+//                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -76,8 +86,11 @@ class _DashboardState extends State<Dashboard> {
                       text: "Edit Profile",
                     ),
                     ContainerComponent(
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => New_Appoinment(username: widget.username,)));
+                      },
                       icon: Icons.add,
-                      text: "Place \n Appoinment",
+                      text: "Place \n Appointments",
                     )
                   ],
                 ),
@@ -88,12 +101,40 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     ContainerComponent(
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => Appoinment_History(username: widget.username,)));
+                      },
                       icon: Icons.restore_page,
                       text: "History",
                     ),
                     ContainerComponent(
-                      icon: Icons.person,
+                      icon: Icons.schedule,
                       text: "Upcomming \n Appoinments",
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => Upcomming_Appoinments(username: widget.username,)));
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    ContainerComponent(
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => View_Hospitals()));
+                      },
+                      icon: Icons.local_hospital,
+                      text: "View Hospitals",
+                    ),
+                    ContainerComponent(
+                      icon: Icons.person,
+                      text: "View Doctors",
+                      onpressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => View_Doctors()));
+                      },
                     )
                   ],
                 ),

@@ -1,6 +1,6 @@
 # healthcareapp
 
-A new Flutter application.
+Health care app
 
 ## Getting Started
 

@@ -16,8 +16,6 @@ final telController = TextEditingController();
 final emailController = TextEditingController();
 final cityController = TextEditingController();
 
-String hospitalType = 'Genaral Hospital';
-
 class _HospitalRegistrationState extends State<HospitalRegistration> {
   final _formKey = GlobalKey<FormState>();
 
@@ -35,7 +33,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
         'type': hospitalType,
         'tel': telController.text,
         'email': emailController.text,
-        'city': cityController.text,
+        'city': city,
       };
 
       bool res = await datab.registerHospital(hospitalData);
@@ -72,6 +70,127 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
       },
     );
   }
+
+  String hospitalType = 'Primary_medical_care_unit';
+  String city = 'city';
+
+  List<DropdownMenuItem<String>> locations = [
+    DropdownMenuItem(
+      child: Text('City',style: DdItm,),
+      value: 'city',
+    ),
+    DropdownMenuItem(
+      child: Text('Gampola',style: DdItm,),
+      value: 'Gampola',
+    ),
+    DropdownMenuItem(
+      child: Text('Peradeniya',style: DdItm,),
+      value: 'Peradeniya',
+    ),
+    DropdownMenuItem(
+      child: Text('Kandy',style: DdItm,),
+      value: 'Kandy',
+    ),
+    DropdownMenuItem(
+      child: Text('Kegalle',style: DdItm,),
+      value: 'Kegalle',
+    ),
+    DropdownMenuItem(
+      child: Text('Gampaha',style: DdItm,),
+      value: 'Gampaha',
+    ),
+    DropdownMenuItem(
+      child: Text('Colombo',style: DdItm,),
+      value: 'Colombo',
+    ),
+    DropdownMenuItem(
+      child: Text('Kurunagala',style: DdItm,),
+      value: 'Kurunagala',
+    ),
+    DropdownMenuItem(
+      child: Text('Dambulla',style: DdItm,),
+      value: 'Dambulla',
+    ),
+    DropdownMenuItem(
+      child: Text('Anuradhapura',style: DdItm,),
+      value: 'Anuradhapura',
+    ),
+    DropdownMenuItem(
+      child: Text('Vauniya',style: DdItm,),
+      value: 'Vauniya',
+    ),
+    DropdownMenuItem(
+      child: Text('Jaffna',style: DdItm,),
+      value: 'Jaffna',
+    ),
+    DropdownMenuItem(
+      child: Text('Matara',style: DdItm,),
+      value: 'Matara',
+    ),
+    DropdownMenuItem(
+      child: Text('Galle',style: DdItm,),
+      value: 'Galle',
+    ),
+    DropdownMenuItem(
+      child: Text('Hambanthota',style: DdItm,),
+      value: 'Hambanthota',
+    ),
+    DropdownMenuItem(
+      child: Text('Trincomalee',style: DdItm,),
+      value: 'Trincomalee',
+    ),
+    DropdownMenuItem(
+      child: Text('Batticaloa',style: DdItm,),
+      value: 'Batticaloa',
+    ),
+    DropdownMenuItem(
+      child: Text('Polonnaruwa',style: DdItm,),
+      value: 'Polonnaruwa',
+    ),
+  ];
+
+  List<DropdownMenuItem<String>> types = [
+    DropdownMenuItem(
+      child: Text('National Hospital',style: DdItm,),
+      value: 'National_hospital',
+    ),
+    DropdownMenuItem(
+      child: Text('Teaching Hospital',style: DdItm,),
+      value: 'Teaching_hospital',
+    ),
+    DropdownMenuItem(
+      child: Text('Provincial General Hospital',style: DdItm,),
+      value: 'Provincial_general_hospital',
+    ),
+    DropdownMenuItem(
+      child: Text('District General Hospital',style: DdItm,),
+      value: 'District_general_hospital',
+    ),
+    DropdownMenuItem(
+      child: Text('Base Hospital - A',style: DdItm,),
+      value: 'Base_hospital_a',
+    ),
+    DropdownMenuItem(
+      child: Text('Base Hospital - B',style: DdItm,),
+      value: 'Base_hospital_b',
+    ),
+    DropdownMenuItem(
+      child: Text('Divisional Hospital - A',style: DdItm,),
+      value: 'Divisional_hospital_a',
+    ),
+    DropdownMenuItem(
+      child: Text('Divisional Hospital - B',style: DdItm,),
+      value: 'Divisional_hospital_b',
+    ),
+    DropdownMenuItem(
+      child: Text('Divisional Hospital - C',style: DdItm,),
+      value: 'Divisional_hospital_c',
+    ),
+    DropdownMenuItem(
+      child: Text('Primary Medical Care Unit',style: DdItm,),
+      value: 'Primary_medical_care_unit',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -116,15 +235,7 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                                 iconSize: 30.0,
                                 hint: Text('Select From or To'),
                                 isExpanded: true,
-                                items: <DropdownMenuItem<String>>[
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'Genaral Hospital',
-                                      style: DdItm,
-                                    ),
-                                    value: 'Genaral Hospital',
-                                  ),
-                                ],
+                                items: types,
                                 onChanged: (value) {
                                   setState(() {
                                     hospitalType = value;
@@ -156,16 +267,39 @@ class _HospitalRegistrationState extends State<HospitalRegistration> {
                           return validate(val, "email");
                         },
                       ),
-                      SizedBox(
-                        height: 20,
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: DropdownButton<String>(
+                                underline:
+                                Container(color: Colors.lightBlue, height: 2.0),
+                                iconEnabledColor: Colors.blueAccent,
+                                iconSize: 30.0,
+                                hint: Text('Location'),
+                                isExpanded: true,
+                                items: locations,
+                                onChanged: (value) {
+                                  setState(() {
+                                    city = value;
+                                    print(city);
+                                  });
+                                },
+                                value: city,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      FormTextBox(
-                        txtController: cityController,
-                        hint: "City",
-                        validation: (val) {
-                          return validate(val, "city");
-                        },
-                      ),
+//                      FormTextBox(
+//                        txtController: cityController,
+//                        hint: "City",
+//                        validation: (val) {
+//                          return validate(val, "city");
+//                        },
+//                      ),
                       SizedBox(
                         height: 100,
                       ),

@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:page_slider/page_slider.dart';
 import 'package:healthcareapp/Components/MspButton.dart';
 import 'package:healthcareapp/Logic/Database.dart';
 import 'package:intl/intl.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Screens/Login.dart';
-import 'Screens/UserRegistration.dart';
-import 'Screens/Dashboard.dart';
-import 'Screens/HospitalRegistration.dart';
+import 'package:healthcareapp/Screens/Dashboard.dart';
+import 'package:healthcareapp/Screens/Login.dart';
+import 'package:healthcareapp/Screens/New_Appoinment.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'Screens/DoctorRegistration.dart';
 
 void main() => runApp(MyApp());
@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Color(0xff0a96fa),
-        accentColor: Colors.blue.shade600
+        primarySwatch: Colors.blue,
       ),
-      home: DoctorRegistration(),
+      home: LoginPage(),
     );
   }
 }
