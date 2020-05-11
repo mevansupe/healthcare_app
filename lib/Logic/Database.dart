@@ -105,7 +105,8 @@ class Database {
       var usersCollection = db.collection('doctors');
 
       return await usersCollection
-       .find(where.eq("speciality", spes).eq("city", city)).toList();
+          .find(where.eq("speciality", spes).eq("city", city))
+          .toList();
     } catch (e) {
       print(e);
     }
@@ -121,7 +122,33 @@ class Database {
       var usersCollection = db.collection('appoinments');
 
       return await usersCollection
-       .find(where.eq("username", name).eq("completed", true)).toList();
+          .find(where.eq("username", name).eq("completed", true))
+          .toList();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDocHistory(email) async {
+    try {
+      print("Connecting");
+      Db db = new Db("mongodb://10.0.2.2:27017/healthcare");
+      await db.open();
+      print("Database Connected");
+
+      var usersCollection = db.collection('doctors');
+      String name;
+
+      await usersCollection
+          .find(where.eq("email", email)).forEach((v) => {
+        name = v["name"]
+      });
+
+      var appoinment = db.collection('appoinments');
+
+      return await appoinment
+          .find(where.eq("doctor", name).eq("completed", true))
+          .toList();
     } catch (e) {
       print(e);
     }
@@ -136,8 +163,7 @@ class Database {
 
       var usersCollection = db.collection('hospitals');
 
-      return await usersCollection
-       .find().toList();
+      return await usersCollection.find().toList();
     } catch (e) {
       print(e);
     }
@@ -152,8 +178,7 @@ class Database {
 
       var usersCollection = db.collection('doctors');
 
-      return await usersCollection
-       .find().toList();
+      return await usersCollection.find().toList();
     } catch (e) {
       print(e);
     }
@@ -169,7 +194,32 @@ class Database {
       var usersCollection = db.collection('appoinments');
 
       return await usersCollection
-       .find(where.eq("username", name).eq("completed", false)).toList();
+          .find(where.eq("username", name).eq("completed", false))
+          .toList();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getDoctorUpcomming(email) async {
+    try {
+      print("Connecting");
+      Db db = new Db("mongodb://10.0.2.2:27017/healthcare");
+      await db.open();
+      print("Database Connected");
+
+      var usersCollection = db.collection('doctors');
+      String name;
+
+       await usersCollection
+       .find(where.eq("email", email)).forEach((v) => {
+           name = v["name"]
+         });
+
+      var appoinements = db.collection('appoinments');
+      return await appoinements
+          .find(where.eq("doctor", name).eq("completed", false))
+          .toList();
     } catch (e) {
       print(e);
     }
@@ -230,7 +280,32 @@ class Database {
     }
   }
 
-  Future<bool> loginUser(String email, String password) async {
+  Future<bool> confirmAppointment(appinmentData, id) async {
+    try {
+      print("Connecting");
+      Db db = new Db("mongodb://10.0.2.2:27017/healthcare");
+      await db.open();
+      print("Database Connected");
+
+      var usersCollection = db.collection('appoinments');
+
+      var v1 = await usersCollection.findOne(where.eq("_id", id));
+//      v1["appoinments"] = {appinmentData};
+//      await usersCollection.save(v1);
+
+      await usersCollection.update(v1,{"\$set": appinmentData });
+//      await usersCollection.update(v1,{"appoinments": ""});
+//      await usersCollection.insert(appinmentData);
+
+      db.close();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<int> loginUser(String email, String password) async {
     try {
       print("Connecting");
       Db db = new Db("mongodb://10.0.2.2:27017/healthcare");
@@ -242,12 +317,24 @@ class Database {
       var v = await usersCollection.findOne(where.eq("email", email));
 
       if (v == null) {
-        return false;
+        var doctorsCollection = db.collection('doctors');
+
+        var v = await doctorsCollection.findOne(where.eq("email", email));
+
+        if (v == null) {
+          return 0;
+        } else {
+          if (v["nic"] == password) {
+            return 2;
+          } else {
+            return 0;
+          }
+        }
       } else {
         if (v["password"] == password) {
-          return true;
+          return 1;
         } else {
-          return false;
+          return 0;
         }
       }
     } catch (e) {

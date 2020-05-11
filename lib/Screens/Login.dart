@@ -6,8 +6,8 @@ import 'package:healthcareapp/Logic/Database.dart';
 import 'package:healthcareapp/Screens/Dashboard.dart';
 import 'package:healthcareapp/Screens/DoctorRegistration.dart';
 import 'package:healthcareapp/Screens/HospitalRegistration.dart';
-import 'package:healthcareapp/Screens/Dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:healthcareapp/Screens/Doctor_Dashboard.dart';
 
 Database datab = Database();
 
@@ -26,13 +26,10 @@ class _LoginPageState extends State<LoginPage> {
 
   login() async {
     if (_formKey.currentState.validate()) {
-      bool logged = await datab.loginUser(email, pass);
+      int logged = await datab.loginUser(email, pass);
+      print(logged);
 
-      if (logged) {
-        await _logDetails();
-        await _getlogin();
-        Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard(username: username)));
-      } else {
+      if (logged == 0) {
         return showDialog<void>(
           context: context,
           barrierDismissible: false, // user must tap button!
@@ -63,6 +60,16 @@ class _LoginPageState extends State<LoginPage> {
             );
           },
         );
+      } else {
+        if (logged == 1) {
+          await _logDetails();
+//          await _getlogin();
+          Navigator.push(context, MaterialPageRoute(builder: (_) => Dashboard(username: username)));
+        } else if (logged == 2) {
+          await _logDetails();
+//          await _getlogin();
+          Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorDashboard(username: email,)));
+        }
       }
     }
   }

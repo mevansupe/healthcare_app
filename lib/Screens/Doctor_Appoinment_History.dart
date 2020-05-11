@@ -4,16 +4,16 @@ import 'package:healthcareapp/Logic/Database.dart';
 
 Database datab = Database();
 
-class Appoinment_History extends StatefulWidget {
-  Appoinment_History({this.username});
+class Doctor_Appoinment_History extends StatefulWidget {
+  Doctor_Appoinment_History({this.username});
 
   final username;
 
   @override
-  _Appoinment_HistoryState createState() => _Appoinment_HistoryState();
+  _Doctor_Appoinment_HistoryState createState() => _Doctor_Appoinment_HistoryState();
 }
 
-class _Appoinment_HistoryState extends State<Appoinment_History> {
+class _Doctor_Appoinment_HistoryState extends State<Doctor_Appoinment_History> {
   List<Map<String, dynamic>> history = [];
   List<Widget> historyComponent = [
     SizedBox(
@@ -23,7 +23,7 @@ class _Appoinment_HistoryState extends State<Appoinment_History> {
 
   _gethistory() async {
     print(widget.username);
-    history = await datab.getHistory(widget.username);
+    history = await datab.getDocHistory(widget.username);
     _builComp();
     print("Done");
   }
@@ -89,7 +89,7 @@ class _Appoinment_HistoryState extends State<Appoinment_History> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Doctor Name : ${v["doctor"]}",
+                      "Patient ID : ${v["username"]}",
                       style: TextStyle(
                         fontSize: 18,
                       ),

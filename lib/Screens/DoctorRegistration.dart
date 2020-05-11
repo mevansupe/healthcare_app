@@ -17,6 +17,7 @@ final emailController = TextEditingController();
 final mobileController = TextEditingController();
 final descController = TextEditingController();
 final cityController = TextEditingController();
+final nicController = TextEditingController();
 
 class _DoctorRegistrationState extends State<DoctorRegistration> {
   final _formKey = GlobalKey<FormState>();
@@ -34,6 +35,7 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
     if (_formKey.currentState.validate()) {
       Map<String, dynamic> doctorData = {
         'name': nameController.text,
+        'nic': nicController.text,
         'age': ageController.text,
         'speciality': spesiality,
         'email': emailController.text,
@@ -290,6 +292,19 @@ class _DoctorRegistrationState extends State<DoctorRegistration> {
                   FormTextBox(
                     txtController: nameController,
                     hint: "Name",
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  FormTextBox(
+                    txtController: nicController,
+                    hint: "NIC",
+                    onChanged: (val) {
+
+                    },
+                    validation: (val) {
+                      return validate(val, "NIC");
+                    },
                   ),
                   SizedBox(
                     height: 20,
