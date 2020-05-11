@@ -4,6 +4,7 @@ import 'package:healthcareapp/Screens/Login.dart';
 import 'package:healthcareapp/Screens/New_Appoinment.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'Screens/DoctorRegistration.dart';
+import 'package:healthcareapp/Screens/Payment.dart';
 
 void main() => runApp(MyApp());
 

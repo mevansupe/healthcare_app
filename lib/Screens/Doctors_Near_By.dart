@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcareapp/Logic/Database.dart';
+import 'package:healthcareapp/Screens/Payment.dart';
 
 Database datab = Database();
 
@@ -51,6 +52,8 @@ class _DoctorsNearState extends State<DoctorsNear> {
     if (res) {
       await _successMsg();
       Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (_) => PaymentScreen()));
     }
   }
 
